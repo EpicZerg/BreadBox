@@ -15,7 +15,7 @@ namespace BreadBox
         {
             this.OutputFilePath = OutputFilePath;
         }
-        public void parseInfoToHTML(String boxName, String boxAuthor, String fileName, String fileAuthor, String timestamp, String ip){
+        public void parseInfoToHTML(String boxName, String boxAuthor, String fileName, String fileAuthor, String timestamp, String ip, String baseurl, String rawContent){
             outputWriter = new StreamWriter(OutputFilePath);
             defaultSiteReader = new StreamReader("/content/defaultSite.html");
             defaultSiteReader.BaseStream.Position = 0;
@@ -26,6 +26,11 @@ namespace BreadBox
             defaultSite = defaultSite.Replace("!_fln", fileName);
             defaultSite = defaultSite.Replace("!_fla", fileAuthor);
             defaultSite = defaultSite.Replace("!_tstmp", timestamp);
+            defaultSite = defaultSite.Replace("!_baseurl", baseurl);
+            defaultSite = defaultSite.Replace("!_fileurl", baseurl + "content/" + fileName);
+            defaultSite = defaultSite.Replace("!_userurl", baseurl + "user/" + fileAuthor);
+            defaultSite = defaultSite.Replace("!_userimg", baseurl + "img/" + fileAuthor + ".png");
+            defaultSite = defaultSite.Replace("!_raw_code", rawContent);
             defaultSite = defaultSite.Replace("!_IP", ip);
             outputWriter.Write(defaultSite);
             outputWriter.Flush();
