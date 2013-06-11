@@ -36,5 +36,10 @@ namespace BreadBox
             outputWriter.Flush();
             outputWriter.Close();
         }
+        public void createUserSite(String username, String joindate, String userimageurl)
+        {
+            //todo
+        }
     }
 }
+
