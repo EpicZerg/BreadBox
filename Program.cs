@@ -13,12 +13,13 @@ namespace BreadBox
         static String DB_USER_TABLE = "LoginCredentials";
         static String DB_HOST = "", DB_USER = "", DB_PASS = "", DB_DATABASE = "";
         static Boolean loggedIn = false;
+        static String homeurl = "http://am.d.gp/";
+        static DataBaseHandler dbh = new DataBaseHandler();
+        static HTMLParser htmlp = new HTMLParser("/content/temp.html");
         static void Main(string[] args)
         {
-            
             if (args.Length != 0)
-            {
-                DataBaseHandler dbh = new DataBaseHandler();
+            {                
                 dbh.connect(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
                 switch (args[0])
                 {
@@ -34,20 +35,23 @@ namespace BreadBox
                         }
                     case "login":
                         {
-                            if (args.Length > 2)
+                            if (args.Length == 2)
                                 if (dbh.login(args[1], args[2], DB_USER_TABLE))
                                     loggedIn = true;
                                 else
                                     write("Login wrong, or DB is down.");
+                            else
+                                write("Wrong Arguments\n" + HELP_A + HELP_B);
                             break;
                         }
                     default:
                         {
-                            write(HELP_A + HELP_B);
+                            write("Not a valid Function\n" + HELP_A + HELP_B);
                             break;
                         }
                    }
             }
+            dbh.disconnect();
         }
         static void write(String s)
         {
