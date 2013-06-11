@@ -2,58 +2,47 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data.SqlClient;
 
 namespace BreadBox
 {
-    class Program
+    class DataBaseHandler
     {
-        static String INFO = "BreadBox\n=======\n\nOpen Source.\nhttps://github.com/EpicZerg/BreadBox\n=========================================";
-        static String HELP_A = "Commands:\ninfo : Displays Information\nhelp : Displays this\nlogin username password : Logs you in for the current Session\n";
-        static String HELP_B = "";
-        static String DB_USER_TABLE = "LoginCredentials";
-        static String DB_HOST = "", DB_USER = "", DB_PASS = "", DB_DATABASE = "";
-        static Boolean loggedIn = false;
-        static DataBaseHandler dbh = new DataBaseHandler();
-        static void Main(string[] args)
-        {
-            if (args.Length != 0)
-            {                
-                dbh.connect(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
-                switch (args[0])
-                {
-                    case "info":
-                        {
-                            write(INFO);
-                            break;
-                        }
-                    case "help":
-                        {
-                            write(HELP_A + HELP_B);
-                            break;
-                        }
-                    case "login":
-                        {
-                            if (args.Length == 2)
-                                if (dbh.login(args[1], args[2], DB_USER_TABLE))
-                                    loggedIn = true;
-                                else
-                                    write("Login wrong, or DB is down.");
-                            else
-                                write("Wrong Arguments\n" + HELP_A + HELP_B);
-                            break;
-                        }
-                    default:
-                        {
-                            write("Not a valid Function\n" + HELP_A + HELP_B);
-                            break;
-                        }
-                   }
-            }
-            dbh.disconnect();
+        Boolean isInit = false;
+        SqlConnection DataBaseConnection;
+        internal void connect(string host, string user, string password, string database){
+            DataBaseConnection = new SqlConnection("user id="+ user + ";password="+ password + ";server=" + host + ";Trusted_Connection=yes;" + "database=" + database + ";connection timeout=30");
+            DataBaseConnection.Open();
+            //todo Try and Catch
+            isInit = true;
         }
-        static void write(String s)
+        internal Boolean login(string username, string password, string table)
         {
-            Console.Out.Write(s);
+            if (isInit)
+                using (SqlCommand StrQuer = new SqlCommand("SELECT * FROM @table WHERE username=@username AND password=@password", DataBaseConnection))
+                {
+                    StrQuer.Parameters.AddWithValue("@table", table);
+                    StrQuer.Parameters.AddWithValue("@username", username);
+                    StrQuer.Parameters.AddWithValue("@password", password);
+                    SqlDataReader dr = StrQuer.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                }
+            else
+                return false;
+        }
+        internal void disconnect()
+        {
+            if(isInit)
+            DataBaseConnection.Close();
         }
     }
 }
+
