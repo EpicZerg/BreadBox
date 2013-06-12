@@ -6,12 +6,12 @@ using System.IO;
 
 namespace BreadBox
 {
-    class HTMLParser
+    class HTMLGenerator
     {
         private string OutputFilePath;
         private StreamReader defaultSiteReader;
         private StreamWriter outputWriter;
-        public HTMLParser(string OutputFilePath)
+        public HTMLGenerator(string OutputFilePath)
         {
             this.OutputFilePath = OutputFilePath;
         }
