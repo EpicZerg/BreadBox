@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace BreadBox
+namespace BBXBUILDER
 {
     class HTMLGenerator
     {
@@ -15,7 +15,8 @@ namespace BreadBox
         {
             this.OutputFilePath = OutputFilePath;
         }
-        public void InfoToHTML(String boxName, String boxAuthor, String fileName, String fileAuthor, String timestamp, String ip, String baseurl, String rawContent){
+        public void InfoToHTML(String boxName, String boxAuthor, String fileName, String fileAuthor, String timestamp, String ip, String baseurl, String rawContent)
+        {
             outputWriter = new StreamWriter(OutputFilePath);
             defaultSiteReader = new StreamReader("/content/defaultSite.html");
             defaultSiteReader.BaseStream.Position = 0;

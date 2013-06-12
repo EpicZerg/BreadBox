@@ -1,9 +1,9 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BreadBox
+namespace BBXBUILDER
 {
     class Program
     {
@@ -16,11 +16,11 @@ namespace BreadBox
         public static String homeurl = "http://am.d.gp/";//Needs to be Defined!
         internal static DataBaseHandler dbh = new DataBaseHandler();
         private static String loggedInUsername = "", loggedInPassword = "";
-        static HTMLParser htmlp = new HTMLParser("/content/temp.html");
+        static HTMLGenerator htmlp = new HTMLGenerator("/content/temp.html");
         static void Main(string[] args)
         {
             if (args.Length != 0)
-            {                
+            {
                 dbh.connect(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
                 switch (args[0])
                 {
@@ -37,7 +37,8 @@ namespace BreadBox
                     case "login":
                         {
                             if (args.Length == 2)
-                                if (dbh.login(args[1], args[2], DB_USER_TABLE)){
+                                if (dbh.login(args[1], args[2], DB_USER_TABLE))
+                                {
                                     loggedIn = true;
                                     loggedInUsername = args[1];
                                     loggedInPassword = args[2];
@@ -58,34 +59,37 @@ namespace BreadBox
                             else
                             {
                                 BoxHandler box = new BoxHandler(dbh);
-                                if(args[1].StartsWith("cr")){
-                                    if(args[2].Contains("\"") || args[2].Contains("§") || args[2].Contains("$") || args[2].Contains("%") || args[2].Contains("&") || args[2].Contains("?") || args[2].Contains("`") || args[2].Contains("´") || args[2].Contains("'") || args[2].Contains("~")){
+                                if (args[1].StartsWith("cr"))
+                                {
+                                    if (args[2].Contains("\"") || args[2].Contains("Â§") || args[2].Contains("$") || args[2].Contains("%") || args[2].Contains("&") || args[2].Contains("?") || args[2].Contains("`") || args[2].Contains("Â´") || args[2].Contains("'") || args[2].Contains("~"))
+                                    {
                                         write("Invalid Boxname, Allowed Letters: abcdefghijklmnopqrstuvwxyz1234567890#*+!-_.,[SPACE]");
                                         break;
                                     }
                                     else
-                                        box.newBox(args[2].Replace(" ","_"), loggedInUsername, DB_BOX_TABLE);
+                                        box.createBox(args[2].Replace(" ", "_"), loggedInUsername, DB_BOX_TABLE);
                                 }
                                 else if (args[1].StartsWith("re") || args[1].StartsWith("rm"))
                                 {
-                                    if(box.checkBox(args[2].Replace(" ","_"), loggedInUsername, DB_BOX_TABLE)){
+                                    if (dbh.checkBox(args[2].Replace(" ", "_"), loggedInUsername, DB_BOX_TABLE))
+                                    {
                                         box.removeBox(args[2].Replace(" ", "_"), loggedInUsername, DB_BOX_TABLE);
                                     }
                                 }
                             }
-                                break;
+                            break;
                         }
                     default:
                         {
                             write("Not a valid Function\n" + HELP_A + HELP_B);
                             break;
                         }
-                   }
+                }
             }
             Console.In.Read(); //For not instantly Exiting.
             dbh.disconnect();
         }
-        static void write(String s)
+        internal static void write(String s)
         {
             Console.Out.Write(s);
         }

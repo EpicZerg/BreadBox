@@ -1,17 +1,18 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
 
-namespace BreadBox
+namespace BBXBUILDER
 {
     class DataBaseHandler
     {
         Boolean isInit = false;
         SqlConnection DataBaseConnection;
-        internal void connect(String host, String user, String password, String database){
-            DataBaseConnection = new SqlConnection("user id="+ user + ";password="+ password + ";server=" + host + ";Trusted_Connection=yes;" + "database=" + database + ";connection timeout=60");
+        internal void connect(String host, String user, String password, String database)
+        {
+            DataBaseConnection = new SqlConnection("user id=" + user + ";password=" + password + ";server=" + host + ";Trusted_Connection=yes;" + "database=" + database + ";connection timeout=60");
             try
             {
                 DataBaseConnection.Open();
@@ -47,7 +48,8 @@ namespace BreadBox
         }
         internal void newBox(String boxname, String username, String table)
         {
-            if(checkBox(boxname,username,table)){
+            if (checkBox(boxname, username, table))
+            {
                 Program.write("Box already existant");
                 return;
             }
@@ -83,7 +85,7 @@ namespace BreadBox
                 {
                     StrQuer.Parameters.AddWithValue("@table", table);
                     StrQuer.Parameters.AddWithValue("@username", username);
-                    StrQuer.Parameters.AddWithValue("@boxname",boxname);
+                    StrQuer.Parameters.AddWithValue("@boxname", boxname);
                     SqlDataReader dr = StrQuer.ExecuteReader();
                     if (dr.HasRows)
                     {
@@ -98,17 +100,17 @@ namespace BreadBox
             else
                 return false;
         }
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
         internal void disconnect()
         {
-            if(isInit)
-            DataBaseConnection.Close();
+            if (isInit)
+                DataBaseConnection.Close();
         }
     }
 }

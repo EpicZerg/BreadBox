@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
 
-namespace BreadBox
+namespace BBXBUILDER
 {
     class BoxHandler
     {
@@ -17,7 +17,7 @@ namespace BreadBox
         {
             if (Program.loggedIn)
             {
-                dbh.newBox(boxname, username, password, Program.DB_BOX_TABLE);
+                dbh.newBox(boxname, username, Program.DB_BOX_TABLE);
 
                 if (dbh.checkBox(boxname, username, Program.DB_BOX_TABLE))
                     Program.write("Box " + boxname + "successfully created.");
@@ -31,7 +31,7 @@ namespace BreadBox
         {
             if (Program.loggedIn)
             {
-                dbh.removeBox(boxname, username, password, Program.DB_BOX_TABLE);
+                dbh.removeBox(boxname, username, Program.DB_BOX_TABLE);
 
                 if (!dbh.checkBox(boxname, username, Program.DB_BOX_TABLE))
                     Program.write("Box " + boxname + "successfully removed.");
@@ -42,6 +42,6 @@ namespace BreadBox
                 return;
         }
     }
-        
+
 }
 
