@@ -8,14 +8,14 @@ namespace BreadBox
 {
     class HTMLGenerator
     {
-        private string OutputFilePath;
+        private String OutputFilePath;
         private StreamReader defaultSiteReader;
         private StreamWriter outputWriter;
-        public HTMLGenerator(string OutputFilePath)
+        public HTMLGenerator(String OutputFilePath)
         {
             this.OutputFilePath = OutputFilePath;
         }
-        public void parseInfoToHTML(String boxName, String boxAuthor, String fileName, String fileAuthor, String timestamp, String ip, String baseurl, String rawContent){
+        public void InfoToHTML(String boxName, String boxAuthor, String fileName, String fileAuthor, String timestamp, String ip, String baseurl, String rawContent){
             outputWriter = new StreamWriter(OutputFilePath);
             defaultSiteReader = new StreamReader("/content/defaultSite.html");
             defaultSiteReader.BaseStream.Position = 0;

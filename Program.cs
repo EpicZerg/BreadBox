@@ -10,11 +10,11 @@ namespace BreadBox
         static String INFO = "BreadBox\n=======\n\nOpen Source.\nhttps://github.com/EpicZerg/BreadBox\n=========================================";
         static String HELP_A = "Commands:\ninfo : Displays Information\nhelp : Displays this\nlogin username password : Logs you in for the current Session\n";
         static String HELP_B = "";
-        static String DB_USER_TABLE = "LoginCredentials"; //Needs to be Defined!
-        static String DB_HOST = "", DB_USER = "", DB_PASS = "", DB_DATABASE = "";//Needs to be Defined!
-        static Boolean loggedIn = false;
-        static String homeurl = "http://am.d.gp/";//Needs to be Defined!
-        static DataBaseHandler dbh = new DataBaseHandler();
+        internal static String DB_USER_TABLE = "LoginCredentials", DB_BOX_TABLE = "Boxes"; //Needs to be Defined!
+        internal static String DB_HOST = "", DB_USER = "", DB_PASS = "", DB_DATABASE = "";//Needs to be Defined!
+        public static Boolean loggedIn = false;
+        public static String homeurl = "http://am.d.gp/";//Needs to be Defined!
+        internal static DataBaseHandler dbh = new DataBaseHandler();
         static HTMLParser htmlp = new HTMLParser("/content/temp.html");
         static void Main(string[] args)
         {
