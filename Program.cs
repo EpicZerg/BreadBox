@@ -9,7 +9,7 @@ namespace BreadBox
     {
         static String INFO = "BreadBox\n=======\n\nOpen Source.\nhttps://github.com/EpicZerg/BreadBox\n=========================================";
         static String HELP_A = "Commands:\ninfo : Displays Information\nhelp : Displays this\nlogin username password : Logs you in for the current Session\n";
-        static String HELP_B = "";
+        static String HELP_B = "box [create,remove,upload,download] boxname (-Folder)\n";
         internal static String DB_USER_TABLE = "LoginCredentials", DB_BOX_TABLE = "Boxes"; //Needs to be Defined!
         internal static String DB_HOST = "", DB_USER = "", DB_PASS = "", DB_DATABASE = "";//Needs to be Defined!
         public static Boolean loggedIn = false;
@@ -66,7 +66,7 @@ namespace BreadBox
                                     else
                                         box.newBox(args[2].Replace(" ","_"), loggedInUsername, DB_BOX_TABLE);
                                 }
-                                else if (args[1].StartsWith("cr"))
+                                else if (args[1].StartsWith("re") || args[1].StartsWith("rm"))
                                 {
                                     if(box.checkBox(args[2].Replace(" ","_"), loggedInUsername, DB_BOX_TABLE)){
                                         box.removeBox(args[2].Replace(" ", "_"), loggedInUsername, DB_BOX_TABLE);
