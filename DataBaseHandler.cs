@@ -48,11 +48,11 @@ namespace BreadBox
         internal void newBox(String boxname, String username, String table)
         {
             if (isInit)
-                using (SqlCommand StrQuer = new SqlCommand("INSERT * FROM @table WHERE username=@username AND password=@password", DataBaseConnection))
+                using (SqlCommand StrQuer = new SqlCommand("INSERT INTO @table VALUES (@boxname,@username);", DataBaseConnection))
                 {
                     StrQuer.Parameters.AddWithValue("@table", table);
+                    StrQuer.Parameters.AddWithValue("@boxname", boxname);
                     StrQuer.Parameters.AddWithValue("@username", username);
-                    StrQuer.Parameters.AddWithValue("@password", password);
                     StrQuer.ExecuteReader();
                 }
             else
