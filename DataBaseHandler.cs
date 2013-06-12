@@ -45,7 +45,7 @@ namespace BreadBox
             else
                 return false;
         }
-        internal void newBox(String boxname, String username, String password, String table)
+        internal void newBox(String boxname, String username, String table)
         {
             if (isInit)
                 using (SqlCommand StrQuer = new SqlCommand("INSERT * FROM @table WHERE username=@username AND password=@password", DataBaseConnection))

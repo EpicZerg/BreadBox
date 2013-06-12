@@ -15,6 +15,7 @@ namespace BreadBox
         public static Boolean loggedIn = false;
         public static String homeurl = "http://am.d.gp/";//Needs to be Defined!
         internal static DataBaseHandler dbh = new DataBaseHandler();
+        private static String loggedInUsername = "", loggedInPassword = "";
         static HTMLParser htmlp = new HTMLParser("/content/temp.html");
         static void Main(string[] args)
         {
@@ -36,13 +37,37 @@ namespace BreadBox
                     case "login":
                         {
                             if (args.Length == 2)
-                                if (dbh.login(args[1], args[2], DB_USER_TABLE))
+                                if (dbh.login(args[1], args[2], DB_USER_TABLE)){
                                     loggedIn = true;
+                                    loggedInUsername = args[1];
+                                    loggedInPassword = args[2];
+                                }
                                 else
                                     write("Login wrong, or DB is down.");
                             else
                                 write("Wrong Arguments\n" + HELP_A + HELP_B);
                             break;
+                        }
+                    case "box":
+                        {
+                            if (args.Length < 3)
+                            {
+                                write("Wrong Arguments\n" + HELP_A + HELP_B);
+                                break;
+                            }
+                            else
+                            {
+                                BoxHandler box = new BoxHandler(dbh);
+                                if(args[1].StartsWith("cr")){
+                                    if(args[2].Contains("\"") || args[2].Contains("§") || args[2].Contains("$") || args[2].Contains("%") || args[2].Contains("&") || args[2].Contains("?") || args[2].Contains("`") || args[2].Contains("´") || args[2].Contains("'") || args[2].Contains("~")){
+                                        write("Invalid Boxname, Allowed Letters: abcdefghijklmnopqrstuvwxyz1234567890#*+!-_.,[SPACE]");
+                                        break;
+                                    }
+                                    else
+                                        box.newBox(args[2].Replace(" ","_"), loggedInUsername, DB_BOX_TABLE);
+                                }
+                            }
+                                break;
                         }
                     default:
                         {
@@ -51,6 +76,7 @@ namespace BreadBox
                         }
                    }
             }
+            Console.In.Read(); //For not instantly Exiting.
             dbh.disconnect();
         }
         static void write(String s)
