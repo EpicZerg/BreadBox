@@ -47,6 +47,11 @@ namespace BreadBox
         }
         internal void newBox(String boxname, String username, String table)
         {
+            if(checkBox(boxname,username,table)){
+                Program.write("Box already existant");
+                return;
+            }
+
             if (isInit)
                 using (SqlCommand StrQuer = new SqlCommand("INSERT INTO @table VALUES (@boxname,@username);", DataBaseConnection))
                 {
@@ -56,7 +61,20 @@ namespace BreadBox
                     StrQuer.ExecuteReader();
                 }
             else
-                return false;
+                return;
+        }
+        internal void removeBox(String boxname, String username, String table)
+        {
+            if (isInit)
+                using (SqlCommand StrQuer = new SqlCommand("DELETE FROM @table WHERE boxname=@boxname AND username=username;", DataBaseConnection))
+                {
+                    StrQuer.Parameters.AddWithValue("@table", table);
+                    StrQuer.Parameters.AddWithValue("@boxname", boxname);
+                    StrQuer.Parameters.AddWithValue("@username", username);
+                    StrQuer.ExecuteReader();
+                }
+            else
+                return;
         }
         internal Boolean checkBox(String boxname, String username, String table)
         {

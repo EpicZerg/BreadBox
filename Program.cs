@@ -66,6 +66,12 @@ namespace BreadBox
                                     else
                                         box.newBox(args[2].Replace(" ","_"), loggedInUsername, DB_BOX_TABLE);
                                 }
+                                else if (args[1].StartsWith("cr"))
+                                {
+                                    if(box.checkBox(args[2].Replace(" ","_"), loggedInUsername, DB_BOX_TABLE)){
+                                        box.removeBox(args[2].Replace(" ", "_"), loggedInUsername, DB_BOX_TABLE);
+                                    }
+                                }
                             }
                                 break;
                         }
